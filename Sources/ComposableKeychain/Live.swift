@@ -11,51 +11,29 @@ import ComposableArchitecture
 
 extension KeychainClient {
     public static func live(
-        keychain: Keychain,
-        queue: AnySchedulerOf<DispatchQueue>
+        keychain: Keychain
     ) -> Self {
         Self(
             getString: { key in
-                Effect
-                    .catching { try keychain.getString(key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.getString(key.rawValue)
             },
             getData: { key in
-                Effect
-                    .catching { try keychain.getData(key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.getData(key.rawValue)
             },
             setString: { string, key in
-                Effect
-                    .catching { try keychain.set(string, key: key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.set(string, key: key.rawValue)
             },
             setData: { data, key in
-                Effect
-                    .catching { try keychain.set(data, key: key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.set(data, key: key.rawValue)
             },
             remove: { key in
-                Effect
-                    .catching { try keychain.remove(key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.remove(key.rawValue)
             },
             removeAll: {
-                Effect
-                    .catching { try keychain.removeAll() }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.removeAll()
             },
             contains: { key in
-                Effect
-                    .catching { try keychain.contains(key.rawValue) }
-                    .subscribe(on: queue)
-                    .fireAndForget()
+                try keychain.contains(key.rawValue)
             }
         )
     }

@@ -9,22 +9,22 @@ import Foundation
 import ComposableArchitecture
 
 public struct KeychainClient {
-    public var getString: (_ key: Key) -> Effect<String?, Error>
-    public var setString: (_ value: String, _ key: Key) -> Effect<Never, Error>
-    public var getData: (_ key: Key) -> Effect<Data?, Error>
-    public var setData: (_ value: Data, _ key: Key) -> Effect<Never, Error>
-    public var remove: (_ key: Key) -> Effect<Never, Error>
-    public var removeAll: () -> Effect<Never, Error>
-    public var contains: (_ key: Key) -> Effect<Bool, Error>
+    public var getString: (_ key: Key) throws -> String?
+    public var getData: (_ key: Key) throws -> Data?
+    public var setString: (_ value: String, _ key: Key) throws -> Void
+    public var setData: (_ value: Data, _ key: Key) throws -> Void
+    public var remove: (_ key: Key) throws -> Void
+    public var removeAll: () throws -> Void
+    public var contains: (_ key: Key) throws -> Bool
 
     public init(
-        getString: @escaping (_ key: Key) -> Effect<String?, Error>,
-        getData: @escaping (_ key: Key) -> Effect<Data?, Error>,
-        setString: @escaping (_ value: String, _ key: Key) -> Effect<Never, Error>,
-        setData: @escaping (_ value: Data, _ key: Key) -> Effect<Never, Error>,
-        remove: @escaping (_ key: Key) -> Effect<Never, Error>,
-        removeAll: @escaping () -> Effect<Never, Error>,
-        contains: @escaping (_ key: Key) -> Effect<Bool, Error>
+        getString: @escaping (_ key: Key) throws -> String?,
+        getData: @escaping (_ key: Key) throws -> Data?,
+        setString: @escaping (_ value: String, _ key: Key) throws -> Void,
+        setData: @escaping (_ value: Data, _ key: Key) throws -> Void,
+        remove: @escaping (_ key: Key) throws -> Void,
+        removeAll: @escaping () throws -> Void,
+        contains: @escaping (_ key: Key) throws -> Bool
     ) {
         self.getString = getString
         self.getData = getData
